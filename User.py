@@ -16,8 +16,7 @@ class User:
         self.dl_num = dl_num 
     def __str__(self):
         return(f'The user name is {self.name}, and their email address is {self.email_address}. The DL# is {self.dl_num}')
-    def user_post(self, author):
-        self.author = author
+    def user_post(self):
 
         author = self.name
         content = input('Write a comment below: \n')
@@ -25,19 +24,18 @@ class User:
         #this method only support 1 post per user, otherwise a new post overwrites the existing one store as dict value
         User.all_posts.update({author:content})
         return('Your content has been submitted')
-    def del_post(self, post):
-        self.post = post
-
-        post = str(input('Which user post would you like to delete? (username: )'))
-        del(User.all_posts[post])
-        return(f'The post by {User.name} was deleted!')
+    def del_post(self):
+        # consider adding a loop to check for valid entry, throw error if not
+        user_post = str(input('Which user post would you like to delete? (username: )'))
+        del(User.all_posts[user_post])
+        return(f'The post by {user_post} was deleted!')
 
 logan = User("Logan", "address@email.com", 123123123) 
-print(logan)
-
 notlogan = User("notlogan", "address2@email.com", 987987987)
-print(notlogan)
 
-print(User.user_post(logan, logan))
+print(User.user_post(logan))
+print(User.user_post(notlogan))
+print(User.all_posts)
+print(User.del_post(logan))
 print(User.all_posts)
 
