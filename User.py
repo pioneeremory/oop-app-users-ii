@@ -6,16 +6,20 @@
 
 class User:
     all_posts = {}
-    # Each user has a dict = post title:post_content
+    # FOR MULTIPLE POSTS: Each user has a dict = post title:post_content
     # Class variable is dict = user:post
+    @classmethod
+    def user_list(cls):
+        return list(cls.all_posts.keys())
 
     def __init__(self, name, email_address, dl_num):
-        #make name unique in order to avoid user posts being overwritten, or consider using username or DL# in dict
+        #make name unique in order to avoid user posts being overwritten, or consider using email in dict
         self.name = name
         self.email_address = email_address
         self.dl_num = dl_num 
     def __str__(self):
         return(f'The user name is {self.name}, and their email address is {self.email_address}. The DL# is {self.dl_num}')
+    
     def user_post(self):
 
         author = self.name
@@ -26,9 +30,14 @@ class User:
         return('Your content has been submitted')
     def del_post(self):
         # consider adding a loop to check for valid entry, throw error if not
-        user_post = str(input('Which user post would you like to delete? (username: )'))
-        del(User.all_posts[user_post])
-        return(f'The post by {user_post} was deleted!')
+        while True:
+            user_post = input('Which user post would you like to delete? (username: )')
+            if user_post in User.user_list():
+                del(User.all_posts[user_post])
+                return(f'The post by {user_post} was deleted!')   
+            else:
+                print("Please enter a username that exists")
+
 
 logan = User("Logan", "address@email.com", 123123123) 
 notlogan = User("notlogan", "address2@email.com", 987987987)
@@ -38,4 +47,5 @@ print(User.user_post(notlogan))
 print(User.all_posts)
 print(User.del_post(logan))
 print(User.all_posts)
+print(User.user_list())
 
